@@ -33,8 +33,7 @@ prelistPK = soupPK.select('#contents > div.contents-inner > form > table > tbody
 
 
 
-#url = os.environ["WEBHOOKURL"]
-url = 'https://discord.com/api/webhooks/796754970833321994/qRHzXRbi1bmpWMg-L5nTUmo9P2Z32mBHRxOAfDZ8dGTi9Z8nlkrjWD_6l7a4e5qPVGWu'
+url = os.environ["WEBHOOKURL"]
 webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
 text = "hello"
 webhook.send(text)
