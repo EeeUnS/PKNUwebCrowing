@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import time
 import requests
 from discord import Webhook, RequestsWebhookAdapter
-
+import os
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
