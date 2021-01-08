@@ -33,7 +33,8 @@ prelistPK = soupPK.select('#contents > div.contents-inner > form > table > tbody
 
 
 
-url = os.environ["WEBHOOKURL"]
+#url = os.environ["WEBHOOKURL"]
+url = 'https://discord.com/api/webhooks/796754970833321994/qRHzXRbi1bmpWMg-L5nTUmo9P2Z32mBHRxOAfDZ8dGTi9Z8nlkrjWD_6l7a4e5qPVGWu'
 webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
 text = "hello"
 webhook.send(text)
@@ -65,8 +66,30 @@ while True:
     # for i in range(len(listPK)):
     #     print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
     # - prelistIT
-    differrentIT = list(set(listIT) - set(prelistIT))
-    differrentPk = list(set(listPK) - set(prelistPK))
+
+    differrentIT = []
+    for i in listIT:
+        isIn = False
+        for j in prelistIT:
+            if (i.find('h4').text.strip() == j.find('h4').text.strip()) :
+                isIn = True
+                break
+        if isIn == False:
+            differrentIT.append(i)
+    differrentPk = []
+    for i in listPK:
+        isIn = False
+        for j in prelistPK:
+            if i.find('a').text.strip() == j.find('a').text.strip():
+                isIn = True
+                break
+        if not isIn:
+            differrentPk.append(i)
+
+
+
+    # differrentIT = list(set(listIT) - set(prelistIT))
+    # differrentPk = list(set(listPK) - set(prelistPK))
 
     print('starting')
     for i in differrentIT :
