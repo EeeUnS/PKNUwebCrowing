@@ -1,1 +1,1 @@
-wrokder: python schoolWebCrowing.py
+worker: python schoolWebCrowing.py
