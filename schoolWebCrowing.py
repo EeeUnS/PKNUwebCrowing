@@ -11,26 +11,33 @@ urlIT = "https://cms.pknu.ac.kr"
 urlPK = "http://www.pknu.ac.kr"
 
 #urlIT+'/itcae/view.do?no=9576'
-responseIT = requests.get( urlIT+'/itcae/view.do?no=9576' , verify=False)
 
-responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
+prelistPK = []
+prelistIT = []
+while True:
+    responseIT = requests.get( urlIT+'/itcae/view.do?no=9576' , verify=False)
+    responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
-while responseIT.status_code != 200:
-    time.sleep(10)
-    responseIT = requests.get(urlIT+'/itcae/view.do?no=9576' , verify=False)
+    while responseIT.status_code != 200:
+        time.sleep(10)
+        responseIT = requests.get(urlIT+'/itcae/view.do?no=9576' , verify=False)
 
-while responsePK.status_code != 200:
-    time.sleep(10)
-    responsePK = requests.get(urlPK+ '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
+    while responsePK.status_code != 200:
+        time.sleep(10)
+        responsePK = requests.get(urlPK+ '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
-htmlIT = responseIT.text
-soupIT = BeautifulSoup(htmlIT , features='html.parser')
-prelistIT = soupIT.select(' #board_list > li > a')
+    htmlIT = responseIT.text
+    soupIT = BeautifulSoup(htmlIT, features='html.parser')
+    prelistIT = soupIT.select('#board_list > li > a')
 
-htmlPK = responsePK.text
-soupPK = BeautifulSoup(htmlPK, features='html.parser')
-prelistPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
+    htmlPK = responsePK.text
+    soupPK = BeautifulSoup(htmlPK, features='html.parser')
+    prelistPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
 
+    if prelistPK == [] or prelistIT == []:
+        print("break this")
+        continue
+    break
 
 
 url = os.environ["WEBHOOKURL"]
@@ -43,25 +50,32 @@ while True:
     responseIT = requests.get(urlIT+'/itcae/view.do?no=9576', verify=False)
     responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
-    while responseIT.status_code != 200:
-        time.sleep(10)
-        responseIT = requests.get(urlIT+'/itcae/view.do?no=9576', verify=False)
-    while responsePK.status_code != 200:
-        time.sleep(10)
-        responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
+    listIT = []
+    listPK = []
+    while True:
+        while responseIT.status_code != 200:
+            time.sleep(10)
+            responseIT = requests.get(urlIT+'/itcae/view.do?no=9576', verify=False)
+        while responsePK.status_code != 200:
+            time.sleep(10)
+            responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
-    htmlIT = responseIT.text
-    soupIT = BeautifulSoup(htmlIT, features='html.parser')
-    listIT = soupIT.select(' #board_list > li > a ')
+        htmlIT = responseIT.text
+        soupIT = BeautifulSoup(htmlIT, features='html.parser')
+        listIT = soupIT.select(' #board_list > li > a ')
 
-    # for i in range(len(listIT)):
-    #     print( listIT[i].find('h4').text.strip() + '\n' + urlIT + listIT[i].attrs['href'])
+        # for i in range(len(listIT)):
+        #     print( listIT[i].find('h4').text.strip() + '\n' + urlIT + listIT[i].attrs['href'])
 
-    htmlPK = responsePK.text
-    soupPK = BeautifulSoup(htmlPK, features='html.parser')
-    listPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
-    #listPKtitle = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title > a')
+        htmlPK = responsePK.text
+        soupPK = BeautifulSoup(htmlPK, features='html.parser')
+        listPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
+        #listPKtitle = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title > a')
 
+        if listPK == []  or listIT == []:
+            print("break this")
+            continue
+        break
     # for i in range(len(listPK)):
     #     print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
     # - prelistIT
@@ -85,11 +99,6 @@ while True:
         if not isIn:
             differrentPk.append(i)
 
-
-
-    # differrentIT = list(set(listIT) - set(prelistIT))
-    # differrentPk = list(set(listPK) - set(prelistPK))
-
     print('starting')
     for i in differrentIT :
         text = i.find('h4').text.strip() +'\n' + urlIT + i.attrs['href']
@@ -101,7 +110,7 @@ while True:
     prelistIT = listIT
     prelistPK = listPK
 
-    time.sleep(3600)
+    time.sleep(60)
 
     #print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
     #listITtitle[i].text.strip() + '\n' + urlIT + listIT[i].attrs['href']
