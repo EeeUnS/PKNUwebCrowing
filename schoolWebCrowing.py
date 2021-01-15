@@ -44,7 +44,7 @@ url = os.environ["WEBHOOKURL"]
 webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
 text = "hello"
 webhook.send(text)
-
+#contents > div.contents-inner > form:nth-child(3) > table > tbody > tr:nth-child(5) > td.title > a
 while True:
     try:
         # time.sleep(600)
@@ -72,7 +72,7 @@ while True:
             soupPK = BeautifulSoup(htmlPK, features='html.parser')
             listPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
             #listPKtitle = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title > a')
-
+        #    print(listPK)
             if listPK == []  or listIT == []:
                 print("break this")
                 continue
@@ -93,11 +93,12 @@ while True:
         differrentPk = []
         for i in listPK:
             isIn = False
+           # print(i.find('a').text.strip())
             for j in prelistPK:
                 if i.find('a').text.strip() == j.find('a').text.strip():
                     isIn = True
                     break
-            if not isIn:
+            if isIn == False:
                 differrentPk.append(i)
 
         print('starting')
@@ -112,8 +113,9 @@ while True:
         prelistPK = listPK
 
         time.sleep(60)
-    except myerror as e:
+    except Exception as e:
         webhook.send(e)
+        print(e)
         time.sleep(60)
 
     #print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
