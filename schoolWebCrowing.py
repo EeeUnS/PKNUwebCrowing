@@ -46,6 +46,7 @@ text = "hello"
 webhook.send(text)
 #contents > div.contents-inner > form:nth-child(3) > table > tbody > tr:nth-child(5) > td.title > a
 while True:
+
     try:
         # time.sleep(600)
         responseIT = requests.get(urlIT+'/itcae/view.do?no=9576', verify=False)
@@ -53,6 +54,7 @@ while True:
 
         listIT = []
         listPK = []
+
         while True:
             while responseIT.status_code != 200:
                 time.sleep(10)
@@ -101,22 +103,25 @@ while True:
             if isIn == False:
                 differrentPk.append(i)
 
+
         print('starting')
         for i in differrentIT :
             text = i.find('h4').text.strip() +'\n' + urlIT + i.attrs['href']
             webhook.send(text)
         for i in differrentPk:
-            text = +i.find('a').text.strip() + '\n' + urlPK + i.attrs['href']
+            text = i.find('a').text.strip() + '\n' + urlPK + i.attrs['href']
             webhook.send(text)
         print('end')
-        prelistIT = listIT
-        prelistPK = listPK
+        if listIT != [] and listPK != []:
+            prelistIT = listIT
+            prelistPK = listPK
 
         time.sleep(60)
     except Exception as e:
         print(e)
-        webhook.send(traceback.format_exc(limit=None, chain=True) + e )
+        webhook.send(traceback.format_exc(limit=None, chain=True) + e)
         time.sleep(60)
+
 
     #print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
     #listITtitle[i].text.strip() + '\n' + urlIT + listIT[i].attrs['href']
