@@ -114,8 +114,8 @@ while True:
 
         time.sleep(60)
     except Exception as e:
-        webhook.send(e)
         print(e)
+        webhook.send(traceback.format_exc(limit=None, chain=True) + e )
         time.sleep(60)
 
     #print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
