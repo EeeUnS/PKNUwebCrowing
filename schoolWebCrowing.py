@@ -119,7 +119,8 @@ while True:
         time.sleep(60)
     except Exception as e:
         print(e)
-        webhook.send(traceback.format_exc(limit=None, chain=True) + e)
+        webhook.send(traceback.format_exc(limit=None, chain=True))
+        webhook.send(e)
         time.sleep(60)
 
 
