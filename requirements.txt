@@ -2,3 +2,7 @@ beautifulsoup4
 requests
 discord
 urllib3
+time
+urllib3
+traceback
+os

@@ -5,6 +5,8 @@ import requests
 from discord import Webhook, RequestsWebhookAdapter
 import os
 import urllib3
+import traceback
+
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 urlIT = "https://cms.pknu.ac.kr"
@@ -39,14 +41,12 @@ while True:
         continue
     break
 
-
 url = os.environ["WEBHOOKURL"]
 webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
 text = "hello"
 webhook.send(text)
 #contents > div.contents-inner > form:nth-child(3) > table > tbody > tr:nth-child(5) > td.title > a
 while True:
-
     try:
         # time.sleep(600)
         responseIT = requests.get(urlIT+'/itcae/view.do?no=9576', verify=False)
