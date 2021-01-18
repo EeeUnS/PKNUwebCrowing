@@ -109,7 +109,7 @@ while True:
             text = i.find('h4').text.strip() +'\n' + urlIT + i.attrs['href']
             webhook.send(text)
         for i in differrentPk:
-            text = i.find('a').text.strip() + '\n' + urlPK + i.attrs['href']
+            text = i.find('a').text.strip() + '\n' + urlPK + i.find('a').attrs['href']
             webhook.send(text)
         print('end')
         if listIT != [] and listPK != []:
