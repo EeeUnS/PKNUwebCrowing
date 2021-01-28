@@ -48,7 +48,9 @@ webhook.send(text)
 #contents > div.contents-inner > form:nth-child(3) > table > tbody > tr:nth-child(5) > td.title > a
 while True:
     try:
-        # time.sleep(600)
+        time.sleep(3600)
+        webhook.send("hellohello")
+
         responseIT = requests.get(urlIT+'/itcae/view.do?no=9576', verify=False)
         responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
@@ -115,13 +117,10 @@ while True:
         if listIT != [] and listPK != []:
             prelistIT = listIT
             prelistPK = listPK
-
-        time.sleep(60)
     except Exception as e:
         print(e)
         webhook.send(e)
         webhook.send(traceback.format_exc(limit=None, chain=True))
-        time.sleep(60)
 
 
     #print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
