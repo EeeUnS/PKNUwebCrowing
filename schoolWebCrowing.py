@@ -49,7 +49,7 @@ webhook.send(text)
 while True:
     try:
         time.sleep(3600)
-        webhook.send("hellohello")
+        #webhook.send("hellohello")
 
         responseIT = requests.get(urlIT+'/itcae/view.do?no=9576', verify=False)
         responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
