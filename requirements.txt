@@ -3,3 +3,4 @@ requests
 discord
 urllib3
 discordwebhook
+APScheduler==3.0.0

@@ -1,1 +1,1 @@
-worker: python schoolWebCrowing.py
+clock: python schoolWebCrowing.py
