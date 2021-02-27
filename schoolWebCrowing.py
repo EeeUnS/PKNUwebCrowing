@@ -82,7 +82,7 @@ def timed_job():
 
         print('starting')
         for i in differrentIT:
-            text = i.find('h4').text.strip() + '\n' + urlIT + i.attrs['href']
+            text =  'IT '+ i.find('h4').text.strip() + '\n' + urlIT + i.attrs['href']
             webhook.send(text)
         for i in differrentPk:
             text = i.find('a').text.strip() + '\n' + urlPK + i.find('a').attrs['href']
