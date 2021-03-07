@@ -125,11 +125,12 @@ while True:
         continue
     break
 
+
 url = os.environ["WEBHOOKURL"]
 webhook = Webhook.from_url(url, adapter=RequestsWebhookAdapter())
 text = "hello"
 print(text)
-webhook.send(text)
+#webhook.send(text)
 #schedul
 
 sched = BlockingScheduler()
