@@ -129,11 +129,17 @@ def timed_job():
 
 while True:
     responseIT = requests.get( urlIT+'/itcae/view.do?no=9576' , verify=False)
+    responseCS = requests.get(urlIT + '/ced/view.do?no=11084', verify=False)
     responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
     while responseIT.status_code != 200:
         time.sleep(10)
         responseIT = requests.get(urlIT+'/itcae/view.do?no=9576' , verify=False)
+
+    while responseCS.status_code != 200:
+        time.sleep(10)
+        responseIT = requests.get(urlIT + '/ced/view.do?no=11084', verify=False)
+
 
     while responsePK.status_code != 200:
         time.sleep(10)
@@ -143,11 +149,15 @@ while True:
     soupIT = BeautifulSoup(htmlIT, features='html.parser')
     prelistIT = soupIT.select('#board_list > li > a')
 
+    htmlCS = responseCS.text
+    soupCS = BeautifulSoup(htmlCS, features='html.parser')
+    listCS = soupCS.select(' #board_list > li > a ')
+
     htmlPK = responsePK.text
     soupPK = BeautifulSoup(htmlPK, features='html.parser')
     prelistPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
 
-    if prelistPK == [] or prelistIT == []:
+    if prelistPK == [] or prelistIT == [] or prelistCS == []:
         print("break this")
         continue
     break
