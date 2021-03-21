@@ -151,7 +151,7 @@ while True:
 
     htmlCS = responseCS.text
     soupCS = BeautifulSoup(htmlCS, features='html.parser')
-    listCS = soupCS.select(' #board_list > li > a ')
+    prelistCS = soupCS.select(' #board_list > li > a ')
 
     htmlPK = responsePK.text
     soupPK = BeautifulSoup(htmlPK, features='html.parser')
@@ -174,5 +174,4 @@ sched = BlockingScheduler()
 sched.add_job(timed_job,'interval', minutes=60)
 print("scheduled")
 sched.start()
-
 
