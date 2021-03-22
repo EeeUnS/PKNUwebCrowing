@@ -11,6 +11,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 urlIT = "https://cms.pknu.ac.kr"
+urlCS = urlIT
 urlPK = "http://www.pknu.ac.kr"
 
 #urlIT+'/itcae/view.do?no=9576'
@@ -29,7 +30,7 @@ def timed_job():
         time.sleep(3600)
         # webhook.send("hellohello")
         responseIT = requests.get(urlIT + '/itcae/view.do?no=9576', verify=False)
-        responseCS = requests.get(urlIT + '/ced/view.do?no=11084', verify=False)
+        responseCS = requests.get(urlCS + '/ced/view.do?no=11084', verify=False)
         responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
         listIT = []
@@ -42,7 +43,7 @@ def timed_job():
                 responseIT = requests.get(urlIT + '/itcae/view.do?no=9576', verify=False)
             while responseCS.status_code != 200:
                 time.sleep(10)
-                responseIT = requests.get(urlIT + '/ced/view.do?no=11084', verify=False)
+                responseCS = requests.get(urlCS + '/ced/view.do?no=11084', verify=False)
             while responsePK.status_code != 200:
                 time.sleep(10)
                 responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
@@ -107,7 +108,7 @@ def timed_job():
             text =  'IT '+ i.find('h4').text.strip() + '\n' + urlIT + i.attrs['href']
             webhook.send(text)
         for i in differrentCS:
-            text =  'CS '+ i.find('h4').text.strip() + '\n' + urlIT + i.attrs['href']
+            text =  'CS '+ i.find('h4').text.strip() + '\n' + urlCS + i.attrs['href']
             webhook.send(text)
         for i in differrentPk:
             text = i.find('a').text.strip() + '\n' + urlPK + i.find('a').attrs['href']
@@ -138,7 +139,7 @@ while True:
 
     while responseCS.status_code != 200:
         time.sleep(10)
-        responseIT = requests.get(urlIT + '/ced/view.do?no=11084', verify=False)
+        responseCS = requests.get(urlIT + '/ced/view.do?no=11084', verify=False)
 
 
     while responsePK.status_code != 200:
