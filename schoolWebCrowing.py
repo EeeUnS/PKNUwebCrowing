@@ -22,44 +22,53 @@ prelistCS = []
 
 ### get list
 def updateList(listIT, listCS, listPK)
-    while True:
-            responseIT = requests.get(urlIT + '/itcae/view.do?no=9576', verify=False)
-            responseCS = requests.get(urlCS + '/ced/view.do?no=11084', verify=False)
-            responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
-
-            while responseIT.status_code != 200:
-                time.sleep(10)
+    try:
+        while True:
                 responseIT = requests.get(urlIT + '/itcae/view.do?no=9576', verify=False)
-            while responseCS.status_code != 200:
-                time.sleep(10)
                 responseCS = requests.get(urlCS + '/ced/view.do?no=11084', verify=False)
-            while responsePK.status_code != 200:
-                time.sleep(10)
                 responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
-            htmlIT = responseIT.text
-            soupIT = BeautifulSoup(htmlIT, features='html.parser')
-            listIT = soupIT.select(' #board_list > li > a ')
+                while responseIT.status_code != 200:
+                    time.sleep(10)
+                    responseIT = requests.get(urlIT + '/itcae/view.do?no=9576', verify=False)
+                while responseCS.status_code != 200:
+                    time.sleep(10)
+                    responseCS = requests.get(urlCS + '/ced/view.do?no=11084', verify=False)
+                while responsePK.status_code != 200:
+                    time.sleep(10)
+                    responsePK = requests.get(urlPK + '/usrBoardActn.do?p_bm_idx=5&p_boardcode=PK10000005')
 
-            htmlCS = responseCS.text
-            soupCS = BeautifulSoup(htmlCS, features='html.parser')
-            listCS = soupCS.select(' #board_list > li > a ')
+                htmlIT = responseIT.text
+                soupIT = BeautifulSoup(htmlIT, features='html.parser')
+                listIT = soupIT.select(' #board_list > li > a ')
 
-            # for i in range(len(listIT)):
-            #     print( listIT[i].find('h4').text.strip() + '\n' + urlIT + listIT[i].attrs['href'])
+                htmlCS = responseCS.text
+                soupCS = BeautifulSoup(htmlCS, features='html.parser')
+                listCS = soupCS.select(' #board_list > li > a ')
 
-            htmlPK = responsePK.text
-            soupPK = BeautifulSoup(htmlPK, features='html.parser')
-            listPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
-            # listPKtitle = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title > a')
-            #    print(listPK)
-            if listPK == [] or listIT == [] or listCS == []:
-                print("break this")
-                continue
-            break
-              # for i in range(len(listPK)):
-        #     print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
-        # - prelistIT
+                # for i in range(len(listIT)):
+                #     print( listIT[i].find('h4').text.strip() + '\n' + urlIT + listIT[i].attrs['href'])
+
+                htmlPK = responsePK.text
+                soupPK = BeautifulSoup(htmlPK, features='html.parser')
+                listPK = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title')
+                # listPKtitle = soupPK.select('#contents > div.contents-inner > form > table > tbody > tr > td.title > a')
+                #    print(listPK)
+                if listPK == [] or listIT == [] or listCS == []:
+                    print("break this")
+                    continue
+                break
+                # for i in range(len(listPK)):
+            #     print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
+            # - prelistIT
+            
+    except Exception as e:
+        print(e)
+        webhook.send(e)
+        webhook.send(traceback.format_exc(limit=None, chain=True))
+        # print(listPK[i].find('a').text.strip() + '\n' + urlPK + listPK[i].find('a')['href'])
+        # listITtitle[i].text.strip() + '\n' + urlIT + listIT[i].attrs['href']
+
 
 def timed_job():
     global prelistIT
